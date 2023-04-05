@@ -63,10 +63,15 @@ VS Projects:
 		- prefix: T_Table = unit test for Table class
 		- prefix: T_Controller = unit test for Controller class
 
+Other files:
+	testScript.txt - positive test case
+	testScript2.txt - negative test cases, invalid commands
+	testScript3.txt to testScriptX.txt - various test cases (integration)
+
 Output:
 	Iress_ToyRobot.exe
 	- console application
 	- Usage: "Iress_ToyRobot.exe input_file_name" --> reads input_file_name as text file and executes each command
-		- execution terminates at EOF
+		- execution terminates at EOF or newline
 	- Usage: "Iress_ToyRobot.exe" --> waits for user input through stdin and executes each command provided
-		- because there is no specification on what command to terminate the execution, send Break to exit the application
+		- execution terminates if input is a newline (or Break sinal is sent to the application)
