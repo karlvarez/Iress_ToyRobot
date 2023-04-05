@@ -2,12 +2,18 @@
 
 
 Controller::Controller() {
+	// since the current requirements is a fixed-size table, ok to set it here using the Globally defined table size
+	// change this in case the table size is variable
 	m_table.SetSize(TABLE_SIZE_X, TABLE_SIZE_Y);
 }
 
 Controller::~Controller() {
 }
 
+
+/*
+* see header
+*/
 bool Controller::Place(long x, long y, Face face) {
 	bool bRet = false;
 

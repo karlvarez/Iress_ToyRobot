@@ -12,11 +12,27 @@
 #include "Global.h"
 #include "Controller.h"
 
+/* Commands */
+// these are IDs used to identify the type of command
+typedef enum tagCommand {
+    COMM_UNSUPPORTED = -1,
+    COMM_PLACE = 0,
+    COMM_MOVE,
+    COMM_LEFT,
+    COMM_RIGHT,
+    COMM_REPORT
+} Command;
+
 using namespace std;    
 
+// Controller instance, the Controller is in charge of processing any command coming from the parsing of raw input
 Controller m_controller;
 
-
+/*
+* Parse and process the command by calling Controller functions
+* Parameters:
+* line      : 1 line of input 
+*/
 void ProcessLine(string line) {
     Command command = COMM_UNSUPPORTED;
     long x = POS_NOTSET;
@@ -28,6 +44,7 @@ void ProcessLine(string line) {
 
     stringstream ss(line);
 
+    // parse, delimiter = ' ' (space char)
     while (getline(ss, token, ' ')) {
         tokens.push_back(token);
     }
@@ -39,6 +56,7 @@ void ProcessLine(string line) {
 
         stringstream place_ss(tokens[1]);
 
+        // parse, delimiter = ',' (comma char)
         while (getline(place_ss, place_token, ',')) {
             place_tokens.push_back(place_token);
         }
@@ -47,29 +65,41 @@ void ProcessLine(string line) {
             // convert to long and check if valid and no trailing unsupported chars
             char* end = NULL;
             errno = 0;
-            x = strtol(place_tokens[0].c_str(), &end, 10);
-            y = strtol(place_tokens[1].c_str(), &end, 10);
 
+            // try to convert the first argument to long
+            x = strtol(place_tokens[0].c_str(), &end, 10);
+
+            // if successfull, proceed. otherwise, discard the line
             if (errno != 0 ||
                 (errno == 0 && *end == 0)) {
-                if (place_tokens[2] == "NORTH") {
-                    face = FACE_N;
-                    command = COMM_PLACE;
-                }
-                else if (place_tokens[2] == "SOUTH") {
-                    face = FACE_S;
-                    command = COMM_PLACE;
-                }
-                else if (place_tokens[2] == "EAST") {
-                    face = FACE_E;
-                    command = COMM_PLACE;
-                }
-                else if (place_tokens[2] == "WEST") {
-                    face = FACE_W;
-                    command = COMM_PLACE;
-                }
-                else {
-                    // cout << "Invalid face or direction. Supported: NORTH, SOUTH, EAST, WEST. Case sensitive." << endl;
+
+                // try to convert the second argument to long
+                y = strtol(place_tokens[1].c_str(), &end, 10);
+
+                // if successfull, proceed. otherwise, discard the line
+                if (errno != 0 ||
+                    (errno == 0 && *end == 0)) {
+
+                    // check if the third argument is a valid face (string)
+                    if (place_tokens[2] == "NORTH") {
+                        face = FACE_N;
+                        command = COMM_PLACE;
+                    }
+                    else if (place_tokens[2] == "SOUTH") {
+                        face = FACE_S;
+                        command = COMM_PLACE;
+                    }
+                    else if (place_tokens[2] == "EAST") {
+                        face = FACE_E;
+                        command = COMM_PLACE;
+                    }
+                    else if (place_tokens[2] == "WEST") {
+                        face = FACE_W;
+                        command = COMM_PLACE;
+                    }
+                    else {
+                        // cout << "Invalid face or direction. Supported: NORTH, SOUTH, EAST, WEST. Case sensitive." << endl;
+                    }
                 }
             }
             else {

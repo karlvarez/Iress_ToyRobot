@@ -1,5 +1,6 @@
 #include "Table.h"
 
+
 #define ORIGIN_X 0
 #define ORIGIN_Y 0
 
@@ -9,11 +10,17 @@ Table::Table() {
 Table::~Table() {
 }
 
+/*
+* see header
+*/
 void Table::SetSize(long xsize, long ysize) {
 	m_xsize = xsize;
 	m_ysize = ysize;
 }
 
+/*
+* see header
+*/
 bool Table::PlaceRobot(long x, long y, Face face) {
 	bool bRet = false;
 
@@ -46,12 +53,4 @@ bool Table::RightRobot() {
 
 void Table::ReportRobot() {
 	m_Robot1.Report();
-}
-
-long Table::GetXSize() {
-	return m_xsize;
-}
-
-long Table::GetYSize() {
-	return m_ysize;
 }

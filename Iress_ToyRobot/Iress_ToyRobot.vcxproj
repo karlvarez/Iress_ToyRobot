@@ -140,6 +140,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="testScript.txt" />
+    <Text Include="testScript2.txt" />
+    <Text Include="testScript3.txt" />
+    <Text Include="testScript4.txt" />
+    <Text Include="testScript5.txt" />
+    <Text Include="testScript6.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

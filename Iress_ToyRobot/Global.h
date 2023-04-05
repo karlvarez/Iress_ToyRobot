@@ -7,20 +7,9 @@
 #define TABLE_SIZE_X 5
 #define TABLE_SIZE_Y 5
 
-/* Commands */
-typedef enum tagCommand {
-	COMM_UNSUPPORTED = -1,
-	COMM_PLACE = 0,
-	COMM_MOVE,
-	COMM_LEFT,
-	COMM_RIGHT,
-	COMM_REPORT
-} Command;
-
-/* Position */
-#define POS_NOTSET -1
-
-/* Face or Direction */
+/* Face or Direction values corresponding to North, South, East, West
+ * + NOTSET, meaning Robot has not yet been placed on the table
+*/
 typedef enum tagFace {
 	FACE_NOTSET = -1,
 	FACE_N = 0,
@@ -29,8 +18,3 @@ typedef enum tagFace {
 	FACE_S
 } Face;
 
-typedef struct tagPosition {
-	long x;
-	long y;
-	Face face;
-} Position;

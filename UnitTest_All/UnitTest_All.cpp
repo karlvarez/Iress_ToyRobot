@@ -299,8 +299,12 @@ namespace UnitTestAll
 			Table testTable;
 			testTable.SetSize(10, 10);
 
-			Assert::AreEqual(testTable.GetXSize(), (long)10);
-			Assert::AreEqual(testTable.GetYSize(), (long)10);
+			/*
+			* removed getter functions after successful Unit Tests as they have no other purpose except for Unit Testing
+			* easy to restore in case necessary
+			*/
+			// Assert::AreEqual(testTable.GetXSize(), (long)10);
+			// Assert::AreEqual(testTable.GetYSize(), (long)10);
 		}
 
 		TEST_METHOD(T_Table_PlaceRobot) {
