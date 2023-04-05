@@ -2,10 +2,12 @@
 #include "Robot.h"
 
 #include <iostream>
-#include <string>
 
 Robot::Robot() {
 	/* Constructor */
+	m_pos.x = POS_NOTSET;
+	m_pos.y = POS_NOTSET;
+	m_pos.face = FACE_NOTSET;
 }
 
 Robot::~Robot() {
@@ -13,49 +15,82 @@ Robot::~Robot() {
 
 }
 
-int Robot::getX() {
-	return m_xpos;
+long Robot::GetX() {
+	return m_pos.x;
 }
 
-int Robot::getY() {
-	return m_ypos;
+long Robot::GetY() {
+	return m_pos.y;
 }
 
-Face Robot::getFace() {
-	return m_face;
+Face Robot::GetFace() {
+	return m_pos.face;
 }
 
-void Robot::setX(long x) {
-	m_xpos = x;
+void Robot::SetX(long x) {
+	m_pos.x = x;
 }
-void Robot::setY(long y) {
-	m_ypos = y;
+void Robot::SetY(long y) {
+	m_pos.y = y;
 }
-void Robot::setFace(Face face) {
-	m_face = face;
+void Robot::SetFace(Face face) {
+	m_pos.face = face;
+}
+
+bool Robot::TryPlace(long x, long xmin, long xmax, long y, long ymin, long ymax, Face face)
+{
+	bool bRet = isValidNewPos(x, xmin, xmax, y, ymin, ymax, face);
+	return bRet;
 }
 
 void Robot::Place(long x, long y, Face face)
 {
-	setX(x);
-	setY(y);
-	setFace(face);
+	SetX(x);
+	SetY(y);
+	SetFace(face);
+}
+
+bool Robot::TryMove(long xmin, long xmax, long ymin, long ymax) {
+	bool bRet = false;
+
+	if (isValidPos()) {
+		switch (m_pos.face) {
+		case FACE_N:
+			bRet = isValidNewPos(m_pos.x, xmin, xmax, m_pos.y + 1, ymin, ymax, m_pos.face);
+			break;
+		case FACE_S:
+			bRet = isValidNewPos(m_pos.x, xmin, xmax, m_pos.y - 1, ymin, ymax, m_pos.face);
+			break;
+
+		case FACE_E:
+			bRet = isValidNewPos(m_pos.x + 1, xmin, xmax, m_pos.y, ymin, ymax, m_pos.face);
+			break;
+		case FACE_W:
+			bRet = isValidNewPos(m_pos.x - 1, xmin, xmax, m_pos.y, ymin, ymax, m_pos.face);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	return bRet;
 }
 
 void Robot::Move() {
-	switch (m_face) {
+	switch (m_pos.face) {
 	case FACE_N:
-		setY(m_ypos + 1);
+		SetY(m_pos.y + 1);
 		break;
 	case FACE_S:
-		setY(m_ypos - 1);
+		SetY(m_pos.y - 1);
 		break;
 
 	case FACE_E:
-		setX(m_xpos + 1);
+		SetX(m_pos.x + 1);
 		break;
 	case FACE_W:
-		setX(m_xpos - 1);
+		SetX(m_pos.x - 1);
 		break;
 
 	default:
@@ -63,54 +98,69 @@ void Robot::Move() {
 	}
 }
 
-void Robot::Left() {
-	switch (m_face) {
-	case FACE_N:
-		setFace(FACE_W);
-		break;
-	case FACE_S:
-		setFace(FACE_E);
-		break;
+bool Robot::Left() {
+	bool bRet = false;
 
-	case FACE_E:
-		setFace(FACE_N);
-		break;
-	case FACE_W:
-		setFace(FACE_S);
-		break;
+	if (isValidPos())
+	{
+		switch (m_pos.face) {
+		case FACE_N:
+			SetFace(FACE_W);
+			break;
+		case FACE_S:
+			SetFace(FACE_E);
+			break;
 
-	default:
-		break;
+		case FACE_E:
+			SetFace(FACE_N);
+			break;
+		case FACE_W:
+			SetFace(FACE_S);
+			break;
+
+		default:
+			break;
+		}
+
+		bRet = true;
 	}
+
+	return bRet;
 }
 
-void Robot::Right() {
-	switch (m_face) {
-	case FACE_N:
-		setFace(FACE_E);
-		break;
-	case FACE_S:
-		setFace(FACE_W);
-		break;
+bool Robot::Right() {
+	bool bRet = false;
 
-	case FACE_E:
-		setFace(FACE_S);
-		break;
-	case FACE_W:
-		setFace(FACE_N);
-		break;
+	if (isValidPos()) {
+		switch (m_pos.face) {
+		case FACE_N:
+			SetFace(FACE_E);
+			break;
+		case FACE_S:
+			SetFace(FACE_W);
+			break;
 
-	default:
-		break;
+		case FACE_E:
+			SetFace(FACE_S);
+			break;
+		case FACE_W:
+			SetFace(FACE_N);
+			break;
+
+		default:
+			break;
+		}
+
+		bRet = true;
 	}
+
+	return bRet;
 }
 
 void Robot::Report() {
 	/* TODO: remove calls to std output */
 
-	if (m_xpos == POS_NOTSET ||
-		m_ypos == POS_NOTSET ||
-		m_face == FACE_NOTSET)
+	if (!isValidPos())
 	{
 		std::cout << "Invalid position or face, issue a valid PLACE command first";
 		return;
@@ -119,7 +169,7 @@ void Robot::Report() {
 	std::string sFace;
 	std::string sReport;
 
-	switch (m_face) {
+	switch (m_pos.face) {
 	case FACE_N:
 		sFace = S_FACE_N;
 		break;
@@ -138,9 +188,29 @@ void Robot::Report() {
 		break;
 	}
 
-	sReport = "" + m_xpos;
-	sReport += ", " + m_ypos;
+	sReport = "" + m_pos.x;
+	sReport += ", " + m_pos.y;
 	sReport += ", " + sFace;
 
 	std::cout << sReport;
+}
+
+bool Robot::isValidPos() {
+	return (m_pos.x != POS_NOTSET) &&
+		(m_pos.y != POS_NOTSET) &&
+		(m_pos.face != FACE_NOTSET);
+}
+
+bool Robot::isValidNewPos(long x, long xmin, long xmax, long y, long ymin, long ymax, Face face) {
+	bool bRet = false;
+
+	if (x >= xmin &&
+		x <= xmax &&
+		y >= ymin &&
+		y <= ymax &&
+		face != FACE_NOTSET) {
+		bRet = true;
+	}
+
+	return bRet;
 }

@@ -8,29 +8,28 @@
 #define S_FACE_W "West"
 #define S_FACE_S "South"
 
-#define POS_NOTSET -1
-
-
 class Robot
 {
 private:
-	long m_xpos = POS_NOTSET;
-	long m_ypos = POS_NOTSET;
-	Face m_face = FACE_NOTSET;
+	Position m_pos;
 
-	void setX(long);
-	void setY(long);
-	void setFace(Face);
+	void SetX(long);
+	void SetY(long);
+	void SetFace(Face);
+	bool isValidPos();
+	bool isValidNewPos(long, long, long, long, long, long, Face);
 
 public:
-	int getX();
-	int getY();
-	Face getFace();
+	long GetX();
+	long GetY();
+	Face GetFace();
 
+	bool TryPlace(long, long, long, long, long, long, Face);
 	void Place(long, long, Face);
+	bool TryMove(long, long, long, long);
 	void Move();
-	void Left();
-	void Right();
+	bool Left();
+	bool Right();
 	void Report();
 
 	Robot();

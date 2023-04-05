@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "../Iress_ToyRobot/Robot.h"
+#include "../Iress_ToyRobot/Table.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -26,182 +27,278 @@ namespace UnitTestAll
 	TEST_CLASS(UnitTestAll)
 	{
 	public:
-		TEST_METHOD(TestMethod_Initial)
+		TEST_METHOD(T_Robot_Initial)
 		{
 			Robot testRobot;
 
-			Assert::AreEqual(testRobot.getX(), POS_NOTSET);
-			Assert::AreEqual(testRobot.getY(), POS_NOTSET);
-			Assert::AreEqual(testRobot.getFace(), FACE_NOTSET);
+			Assert::AreEqual(testRobot.GetX(), (long)POS_NOTSET);
+			Assert::AreEqual(testRobot.GetY(), (long)POS_NOTSET);
+			Assert::AreEqual(testRobot.GetFace(), FACE_NOTSET);
+			Assert::IsFalse(testRobot.TryMove(1, 2, 3, 4));
 		}
 
-		TEST_METHOD(TestMethod_Place_1_99_N)
+		TEST_METHOD(T_Robot_Place_0_0_N)
 		{
 			Robot testRobot;
 
-			testRobot.Place(1, 99, FACE_N);
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_N);
+			testRobot.Place(0, 0, FACE_N);
+			Assert::AreEqual(testRobot.GetX(), (long)0);
+			Assert::AreEqual(testRobot.GetY(), (long)0);
+			Assert::AreEqual(testRobot.GetFace(), FACE_N);
 		}
-		TEST_METHOD(TestMethod_Place_1_99_S)
+
+		TEST_METHOD(T_Robot_Place_100_100_S)
 		{
 			Robot testRobot;
 
-			testRobot.Place(1, 99, FACE_S);
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_S);
+			testRobot.Place(100, 100, FACE_S);
+			Assert::AreEqual(testRobot.GetX(), (long)100);
+			Assert::AreEqual(testRobot.GetY(), (long)100);
+			Assert::AreEqual(testRobot.GetFace(), FACE_S);
 		}
-		TEST_METHOD(TestMethod_Place_1_99_E)
+
+		TEST_METHOD(T_Robot_Place_0_100_E)
 		{
 			Robot testRobot;
 
-			testRobot.Place(1, 99, FACE_E);
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_E);
+			testRobot.Place(0, 100, FACE_E);
+			Assert::AreEqual(testRobot.GetX(), (long)0);
+			Assert::AreEqual(testRobot.GetY(), (long)100);
+			Assert::AreEqual(testRobot.GetFace(), FACE_E);
 		}
-		TEST_METHOD(TestMethod_Place_1_99_W)
+
+		TEST_METHOD(T_Robot_Place_100_0_W)
 		{
 			Robot testRobot;
 
-			testRobot.Place(1, 99, FACE_W);
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_W);
+			testRobot.Place(100, 0, FACE_W);
+			Assert::AreEqual(testRobot.GetX(), (long)100);
+			Assert::AreEqual(testRobot.GetY(), (long)0);
+			Assert::AreEqual(testRobot.GetFace(), FACE_W);
 		}
 
-		TEST_METHOD(TestMethod_Place_1_99_N_Left)
+		TEST_METHOD(T_Robot_TryPlace)
+		{
+			Robot testRobot;
+
+			Assert::IsTrue(testRobot.TryPlace(0, 0, 5, 0, 0, 5, FACE_N));
+		}
+
+		TEST_METHOD(T_Robot_TryPlace_Invalid_X)
+		{
+			Robot testRobot;
+
+			Assert::IsFalse(testRobot.TryPlace(100, 0, 5, 0, 0, 5, FACE_N));
+		}
+
+		TEST_METHOD(T_Robot_TryPlace_Invalid_Y)
+		{
+			Robot testRobot;
+
+			Assert::IsFalse(testRobot.TryPlace(0, 0, 5, 100, 0, 5, FACE_N));
+		}
+
+		TEST_METHOD(T_Robot_TryPlace_Invalid_FACE)
+		{
+			Robot testRobot;
+
+			Assert::IsFalse(testRobot.TryPlace(0, 0, 5, 0, 0, 5, FACE_NOTSET));
+		}
+
+		TEST_METHOD(T_Robot_Move_N)
+		{
+			Robot testRobot;
+
+			testRobot.Place(3, 3, FACE_N);
+			testRobot.Move();
+			Assert::AreEqual(testRobot.GetX(), (long)3);
+			Assert::AreEqual(testRobot.GetY(), (long)4);
+			Assert::AreEqual(testRobot.GetFace(), FACE_N);
+		}
+
+		TEST_METHOD(T_Robot_Move_S)
+		{
+			Robot testRobot;
+
+			testRobot.Place(3, 3, FACE_S);
+			testRobot.Move();
+			Assert::AreEqual(testRobot.GetX(), (long)3);
+			Assert::AreEqual(testRobot.GetY(), (long)2);
+			Assert::AreEqual(testRobot.GetFace(), FACE_S);
+		}
+
+		TEST_METHOD(T_Robot_Move_E)
+		{
+			Robot testRobot;
+
+			testRobot.Place(3, 3, FACE_E);
+			testRobot.Move();
+			Assert::AreEqual(testRobot.GetX(), (long)4);
+			Assert::AreEqual(testRobot.GetY(), (long)3);
+			Assert::AreEqual(testRobot.GetFace(), FACE_E);
+		}
+
+		TEST_METHOD(T_Robot_Move_W)
+		{
+			Robot testRobot;
+
+			testRobot.Place(3, 3, FACE_W);
+			testRobot.Move();
+			Assert::AreEqual(testRobot.GetX(), (long)2);
+			Assert::AreEqual(testRobot.GetY(), (long)3);
+			Assert::AreEqual(testRobot.GetFace(), FACE_W);
+		}
+
+		TEST_METHOD(T_Robot_TryMove_N)
+		{
+			Robot testRobot;
+
+			testRobot.Place(0, 0, FACE_N);
+			Assert::IsTrue(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_N_Invalid)
+		{
+			Robot testRobot;
+
+			testRobot.Place(100, 100, FACE_N);
+			Assert::IsFalse(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_S)
+		{
+			Robot testRobot;
+
+			testRobot.Place(100, 100, FACE_S);
+			Assert::IsTrue(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_S_Invalid)
+		{
+			Robot testRobot;
+
+			testRobot.Place(0, 0, FACE_S);
+			Assert::IsFalse(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_E)
+		{
+			Robot testRobot;
+
+			testRobot.Place(0, 0, FACE_E);
+			Assert::IsTrue(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_E_Invalid)
+		{
+			Robot testRobot;
+
+			testRobot.Place(100, 100, FACE_E);
+			Assert::IsFalse(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_W)
+		{
+			Robot testRobot;
+
+			testRobot.Place(100, 100, FACE_W);
+			Assert::IsTrue(testRobot.TryMove(0, 100, 0, 100));
+		}
+
+		TEST_METHOD(T_Robot_TryMove_W_Invalid)
+		{
+			Robot testRobot;
+
+			testRobot.Place(0, 0, FACE_W);
+			Assert::IsFalse(testRobot.TryMove(0, 100, 0, 100));
+		}
+		TEST_METHOD(T_Robot_Left_N)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_N);
 			testRobot.Left();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_W);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_W);
 		}
-
-		TEST_METHOD(TestMethod_Place_1_99_S_Left)
+		TEST_METHOD(T_Robot_Left_S)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_S);
 			testRobot.Left();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_E);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_E);
 		}
-
-		TEST_METHOD(TestMethod_Place_1_99_E_Left)
+		TEST_METHOD(T_Robot_Left_E)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_E);
 			testRobot.Left();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_N);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_N);
 		}
 
-		TEST_METHOD(TestMethod_Place_1_99_W_Left)
+		TEST_METHOD(T_Robot_Left_W)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_W);
 			testRobot.Left();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_S);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_S);
 		}
-
-		TEST_METHOD(TestMethod_Place_1_99_N_Right)
+		TEST_METHOD(T_Robot_Right_N)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_N);
 			testRobot.Right();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_E);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_E);
 		}
-
-		TEST_METHOD(TestMethod_Place_1_99_S_Right)
+		TEST_METHOD(T_Robot_Right_S)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_S);
 			testRobot.Right();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_W);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_W);
 		}
-
-		TEST_METHOD(TestMethod_Place_1_99_E_Right)
+		TEST_METHOD(T_Robot_Right_E)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_E);
 			testRobot.Right();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_S);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_S);
 		}
-
-		TEST_METHOD(TestMethod_Place_1_99_W_Right)
+		TEST_METHOD(T_Robot_Right_W)
 		{
 			Robot testRobot;
 
 			testRobot.Place(1, 99, FACE_W);
 			testRobot.Right();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_N);
+			Assert::AreEqual(testRobot.GetX(), (long)1);
+			Assert::AreEqual(testRobot.GetY(), (long)99);
+			Assert::AreEqual(testRobot.GetFace(), FACE_N);
 		}
 
-		TEST_METHOD(TestMethod_Place_1_99_N_Move)
-		{
-			Robot testRobot;
+		TEST_METHOD(T_Table_Initial) {
+			Table testTable(10,10);
 
-			testRobot.Place(1, 99, FACE_N);
-			testRobot.Move();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 100);
-			Assert::AreEqual(testRobot.getFace(), FACE_N);
-		}
-
-		TEST_METHOD(TestMethod_Place_1_99_S_Move)
-		{
-			Robot testRobot;
-
-			testRobot.Place(1, 99, FACE_S);
-			testRobot.Move();
-			Assert::AreEqual(testRobot.getX(), 1);
-			Assert::AreEqual(testRobot.getY(), 98);
-			Assert::AreEqual(testRobot.getFace(), FACE_S);
-		}
-
-		TEST_METHOD(TestMethod_Place_1_99_E_Move)
-		{
-			Robot testRobot;
-
-			testRobot.Place(1, 99, FACE_E);
-			testRobot.Move();
-			Assert::AreEqual(testRobot.getX(), 2);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_E);
-		}
-
-		TEST_METHOD(TestMethod_Place_1_99_W_Move)
-		{
-			Robot testRobot;
-
-			testRobot.Place(1, 99, FACE_W);
-			testRobot.Move();
-			Assert::AreEqual(testRobot.getX(), 0);
-			Assert::AreEqual(testRobot.getY(), 99);
-			Assert::AreEqual(testRobot.getFace(), FACE_W);
+			Assert::AreEqual(testTable.GetXSize(), (long)10);
+			Assert::AreEqual(testTable.GetYSize(), (long)10);
 		}
 	};
 }

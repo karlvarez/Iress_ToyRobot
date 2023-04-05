@@ -2,6 +2,8 @@
 
 /* global definitions */
 
+#define POS_NOTSET -1
+
 /* Face or Direction */
 typedef enum tagFace {
 	FACE_NOTSET = -1,
@@ -10,3 +12,9 @@ typedef enum tagFace {
 	FACE_W,
 	FACE_S
 } Face;
+
+typedef struct tagPosition {
+	long x;
+	long y;
+	Face face;
+} Position;
