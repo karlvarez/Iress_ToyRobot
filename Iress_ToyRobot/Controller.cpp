@@ -1,14 +1,14 @@
-#include "InputParser_Controller.h"
+#include "Controller.h"
 
 
-InputParser_Controller::InputParser_Controller() {
+Controller::Controller() {
 	m_table.SetSize(TABLE_SIZE_X, TABLE_SIZE_Y);
 }
 
-InputParser_Controller::~InputParser_Controller() {
+Controller::~Controller() {
 }
 
-bool InputParser_Controller::Place(long x, long y, Face face) {
+bool Controller::Place(long x, long y, Face face) {
 	bool bRet = false;
 
 	if (m_table.PlaceRobot(x, y, face)) {
@@ -18,7 +18,7 @@ bool InputParser_Controller::Place(long x, long y, Face face) {
 	return bRet;
 }
 
-bool InputParser_Controller::Move() {
+bool Controller::Move() {
 	bool bRet = false;
 
 	if (m_table.MoveRobot()) {
@@ -28,7 +28,7 @@ bool InputParser_Controller::Move() {
 	return bRet;
 }
 
-bool InputParser_Controller::Left() {
+bool Controller::Left() {
 	bool bRet = false;
 
 	if (m_table.LeftRobot()) {
@@ -38,7 +38,7 @@ bool InputParser_Controller::Left() {
 	return bRet;
 }
 
-bool InputParser_Controller::Right() {
+bool Controller::Right() {
 	bool bRet = false;
 
 	if (m_table.RightRobot()) {
@@ -48,6 +48,6 @@ bool InputParser_Controller::Right() {
 	return bRet;
 }
 
-void InputParser_Controller::Report() {
+void Controller::Report() {
 	m_table.ReportRobot();
 }

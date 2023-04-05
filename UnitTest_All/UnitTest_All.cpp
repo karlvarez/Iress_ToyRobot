@@ -3,7 +3,7 @@
 
 #include "../Iress_ToyRobot/Robot.h"
 #include "../Iress_ToyRobot/Table.h"
-#include "../Iress_ToyRobot/InputParser_Controller.h"
+#include "../Iress_ToyRobot/Controller.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -321,6 +321,7 @@ namespace UnitTestAll
 		TEST_METHOD(T_Table_MoveRobot) {
 			Table testTable;
 			testTable.SetSize(5, 5);
+
 			testTable.PlaceRobot(3, 3, FACE_N);
 			Assert::IsTrue(testTable.MoveRobot()); // now at 3, 4
 			Assert::IsFalse(testTable.MoveRobot()); // fall
@@ -335,28 +336,56 @@ namespace UnitTestAll
 			testTable.LeftRobot(); // now facing East
 			testTable.LeftRobot(); // now facing North
 			Assert::IsTrue(testTable.MoveRobot()); // now at 3, 4
-			Assert::IsFalse(testTable.MoveRobot()); // fall
+			Assert::IsFalse(testTable.MoveRobot()); // will fall
 		}
 
 		TEST_METHOD(T_Table_RightRobot) {
 			Table testTable;
 			testTable.SetSize(5, 5);
-
 			testTable.PlaceRobot(3, 3, FACE_E);
 			testTable.RightRobot(); // now facing South
 			testTable.RightRobot(); // now facing West
 			testTable.RightRobot(); // now facing North
 			Assert::IsTrue(testTable.MoveRobot()); // now at 3, 4
-			Assert::IsFalse(testTable.MoveRobot()); // fall
+			Assert::IsFalse(testTable.MoveRobot()); // will fall
 		}
-		TEST_METHOD(T_IPC_Place) {
-			InputParser_Controller ipc;
+		TEST_METHOD(T_Controller_Place) {
+			Controller testController;
 
-			Assert::IsTrue(ipc.Place(3, 3, FACE_N));
-			Assert::IsFalse(ipc.Place(10, 10, FACE_S));
-			Assert::IsTrue(ipc.Place(4, 4, FACE_E));
-			Assert::IsFalse(ipc.Place(5, 4, FACE_W));
+			Assert::IsTrue(testController.Place(3, 3, FACE_N));
+			Assert::IsFalse(testController.Place(10, 10, FACE_S));
+			Assert::IsTrue(testController.Place(4, 4, FACE_E));
+			Assert::IsFalse(testController.Place(5, 4, FACE_W));
 		}
 
+		TEST_METHOD(T_Controller_Move) {
+			Controller testController;
+
+			Assert::IsTrue(testController.Place(2, 2, FACE_S));
+			Assert::IsTrue(testController.Move()); // now at 2, 1
+			Assert::IsTrue(testController.Move()); // now at 2, 0
+			Assert::IsFalse(testController.Move()); // will fall
+		}
+
+		TEST_METHOD(T_Controller_Left) {
+			Controller testController;
+
+			Assert::IsTrue(testController.Place(2, 2, FACE_E));
+			Assert::IsTrue(testController.Left()); // now at 2, 2, facing North
+			Assert::IsTrue(testController.Left()); // now at 2, 2, facing West
+			Assert::IsTrue(testController.Move()); // now at 1, 2
+			Assert::IsTrue(testController.Move()); // now at 0, 2
+			Assert::IsFalse(testController.Move()); // will fall
+		}
+
+		TEST_METHOD(T_Controller_Right) {
+			Controller testController;
+
+			Assert::IsTrue(testController.Place(2, 2, FACE_W));
+			Assert::IsTrue(testController.Right()); // now at 2, 2, facing North
+			Assert::IsTrue(testController.Move()); // now at 2, 3
+			Assert::IsTrue(testController.Move()); // now at 2, 4
+			Assert::IsFalse(testController.Move()); // will fall
+		}
 	};
 }

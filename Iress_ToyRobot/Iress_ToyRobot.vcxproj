@@ -127,14 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="InputParser_Controller.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Iress_ToyRobot.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h" />
-    <ClInclude Include="InputParser_Controller.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="Table.h" />
   </ItemGroup>

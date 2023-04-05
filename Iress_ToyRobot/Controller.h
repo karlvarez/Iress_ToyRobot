@@ -3,14 +3,14 @@
 #include "Global.h"
 #include "Table.h"
 
-class InputParser_Controller
+class Controller
 {
 private:
 	Table m_table;
 
 public:
-	InputParser_Controller();
-	~InputParser_Controller();
+	Controller();
+	~Controller();
 	bool Place(long, long, Face);
 	bool Move();
 	bool Left();

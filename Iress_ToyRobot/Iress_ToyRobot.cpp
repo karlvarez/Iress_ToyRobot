@@ -10,11 +10,11 @@
 #include <errno.h>
 
 #include "Global.h"
-#include "InputParser_Controller.h"
+#include "Controller.h"
 
 using namespace std;    
 
-InputParser_Controller m_controller;
+Controller m_controller;
 
 
 void ProcessLine(string line) {
@@ -69,15 +69,15 @@ void ProcessLine(string line) {
                     command = COMM_PLACE;
                 }
                 else {
-                    cout << "Invalid face or direction. Supported: NORTH, SOUTH, EAST, WEST. Case sensitive." << endl;
+                    // cout << "Invalid face or direction. Supported: NORTH, SOUTH, EAST, WEST. Case sensitive." << endl;
                 }
             }
             else {
-                cout << "Failed to convert x or y to long" << endl;
+                // cout << "Failed to convert x or y to long" << endl;
             }
         }
         else {
-            cout << "Invalid PLACE Command parameters" << endl;
+            // cout << "Invalid PLACE Command parameters" << endl;
         }
     }
     else if (token == "MOVE" && tokens.size() == 1) {
@@ -93,7 +93,7 @@ void ProcessLine(string line) {
         command = COMM_REPORT;
     }
     else {
-        cout << "Invalid command. Ignore and move to next line." << endl;
+        // cout << "Invalid command. Ignore and move to next line." << endl;
     }
 
     // if line is a valid command, process it
