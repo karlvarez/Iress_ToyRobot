@@ -64,11 +64,13 @@ VS Projects:
 		- prefix: T_Controller = unit test for Controller class
 
 Other files:
-	testScript.txt - positive test case
-	testScript2.txt - negative test cases, invalid commands
+
+	testScript.txt - positive test case (integration)
+	testScript2.txt - negative test cases, invalid commands (integration)
 	testScript3.txt to testScriptX.txt - various test cases (integration)
 
 Output:
+
 	Iress_ToyRobot.exe
 	- console application
 	- Usage: "Iress_ToyRobot.exe input_file_name" --> reads input_file_name as text file and executes each command
