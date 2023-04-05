@@ -1,7 +1,8 @@
 # Iress_ToyRobot
 
-Requirements:
-	Toy Robot Code Challenge C++ 2022.pdf
+Overview:
+
+	This is a Coding Challenge from Iress. The requirements are in the file: Toy Robot Code Challenge C++ 2022.pdf
 
 VS Solution:
 
