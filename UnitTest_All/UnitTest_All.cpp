@@ -3,6 +3,7 @@
 
 #include "../Iress_ToyRobot/Robot.h"
 #include "../Iress_ToyRobot/Table.h"
+#include "../Iress_ToyRobot/InputParser_Controller.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -295,10 +296,67 @@ namespace UnitTestAll
 		}
 
 		TEST_METHOD(T_Table_Initial) {
-			Table testTable(10,10);
+			Table testTable;
+			testTable.SetSize(10, 10);
 
 			Assert::AreEqual(testTable.GetXSize(), (long)10);
 			Assert::AreEqual(testTable.GetYSize(), (long)10);
 		}
+
+		TEST_METHOD(T_Table_PlaceRobot) {
+			Table testTable;
+			testTable.SetSize(10, 10);
+
+			Assert::IsTrue(testTable.PlaceRobot(0, 0, FACE_N));
+			Assert::IsTrue(testTable.PlaceRobot(0, 9, FACE_S));
+			Assert::IsTrue(testTable.PlaceRobot(9, 0, FACE_E));
+			Assert::IsTrue(testTable.PlaceRobot(9, 9, FACE_W));
+
+			Assert::IsFalse(testTable.PlaceRobot(10, 3, FACE_N));
+			Assert::IsFalse(testTable.PlaceRobot(3, 10, FACE_N));
+			Assert::IsFalse(testTable.PlaceRobot(-1, 0, FACE_N));
+			Assert::IsFalse(testTable.PlaceRobot(0, -1, FACE_N));
+		}
+
+		TEST_METHOD(T_Table_MoveRobot) {
+			Table testTable;
+			testTable.SetSize(5, 5);
+			testTable.PlaceRobot(3, 3, FACE_N);
+			Assert::IsTrue(testTable.MoveRobot()); // now at 3, 4
+			Assert::IsFalse(testTable.MoveRobot()); // fall
+		}
+
+		TEST_METHOD(T_Table_LeftRobot) {
+			Table testTable;
+			testTable.SetSize(5, 5);
+
+			testTable.PlaceRobot(3, 3, FACE_W);
+			testTable.LeftRobot(); // now facing South
+			testTable.LeftRobot(); // now facing East
+			testTable.LeftRobot(); // now facing North
+			Assert::IsTrue(testTable.MoveRobot()); // now at 3, 4
+			Assert::IsFalse(testTable.MoveRobot()); // fall
+		}
+
+		TEST_METHOD(T_Table_RightRobot) {
+			Table testTable;
+			testTable.SetSize(5, 5);
+
+			testTable.PlaceRobot(3, 3, FACE_E);
+			testTable.RightRobot(); // now facing South
+			testTable.RightRobot(); // now facing West
+			testTable.RightRobot(); // now facing North
+			Assert::IsTrue(testTable.MoveRobot()); // now at 3, 4
+			Assert::IsFalse(testTable.MoveRobot()); // fall
+		}
+		TEST_METHOD(T_IPC_Place) {
+			InputParser_Controller ipc;
+
+			Assert::IsTrue(ipc.Place(3, 3, FACE_N));
+			Assert::IsFalse(ipc.Place(10, 10, FACE_S));
+			Assert::IsTrue(ipc.Place(4, 4, FACE_E));
+			Assert::IsFalse(ipc.Place(5, 4, FACE_W));
+		}
+
 	};
 }

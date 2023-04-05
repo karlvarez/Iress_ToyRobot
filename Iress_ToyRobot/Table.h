@@ -1,6 +1,7 @@
+#pragma once
+
 #include "Global.h"
 #include "Robot.h"
-#pragma once
 
 #define SIZE_NOTSET -1
 
@@ -12,8 +13,10 @@ private:
 	Robot m_Robot1;
 
 public:
-	Table(long, long);
+	Table();
 	~Table();
+
+	void SetSize(long, long);
 
 	bool PlaceRobot(long, long, Face);
 	bool MoveRobot();

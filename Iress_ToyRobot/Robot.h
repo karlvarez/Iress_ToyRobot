@@ -1,6 +1,6 @@
-#include "Global.h"
-
 #pragma once
+
+#include "Global.h"
 
 /* TODO: (Nice-to-have) move strings to rc */
 #define S_FACE_N "North"

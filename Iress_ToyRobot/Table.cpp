@@ -3,13 +3,15 @@
 #define ORIGIN_X 0
 #define ORIGIN_Y 0
 
-Table::Table(long xsize, long ysize) {
-	m_xsize = xsize;
-	m_ysize = ysize;
+Table::Table() {
 }
 
-Table::~Table()
-{
+Table::~Table() {
+}
+
+void Table::SetSize(long xsize, long ysize) {
+	m_xsize = xsize;
+	m_ysize = ysize;
 }
 
 bool Table::PlaceRobot(long x, long y, Face face) {

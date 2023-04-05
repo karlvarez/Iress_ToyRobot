@@ -5,6 +5,7 @@
 
 Robot::Robot() {
 	/* Constructor */
+
 	m_pos.x = POS_NOTSET;
 	m_pos.y = POS_NOTSET;
 	m_pos.face = FACE_NOTSET;
@@ -162,7 +163,7 @@ void Robot::Report() {
 
 	if (!isValidPos())
 	{
-		std::cout << "Invalid position or face, issue a valid PLACE command first";
+		std::cout << "Invalid position or face, issue a valid PLACE command first" << std::endl;
 		return;
 	}
 
@@ -188,11 +189,7 @@ void Robot::Report() {
 		break;
 	}
 
-	sReport = "" + m_pos.x;
-	sReport += ", " + m_pos.y;
-	sReport += ", " + sFace;
-
-	std::cout << sReport;
+	std::cout << "Output: " << m_pos.x << "," << m_pos.y << "," << sFace << std::endl;
 }
 
 bool Robot::isValidPos() {
