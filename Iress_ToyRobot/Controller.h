@@ -12,19 +12,18 @@ class Controller
 {
 
 private:
-	// Controller class has 1 instance of Table
-	Table m_table;
+    // Controller class has 1 instance of Table
+    Table m_table;
 
 public:
-	Controller();
-	~Controller();
+    Controller();
+    ~Controller();
 
-	// functions corresponding to each command that is supported
-	bool Place(long, long, Face);
-	bool Move();
-	bool Left();
-	bool Right();
-	void Report();
+    bool Place(long, long, Face);
+    bool Move();
+    bool Left();
+    bool Right();
+    void Report();
 
 };
 

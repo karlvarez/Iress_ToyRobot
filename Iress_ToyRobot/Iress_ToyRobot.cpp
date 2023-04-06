@@ -29,11 +29,13 @@ Controller m_controller;
 
 /*
 * Parse and process the command by calling Controller functions
+* 
 * Parameters:
 *   line    : 1 line of input
 */
 void ProcessLine(string line) {
-    // initially assume that the line parsed is an unsupported command and any parameters that follow (x, y, face) are also unsupported
+    // initially assume that the line parsed is an unsupported command and any parameters that follow (x, y, face) are
+    // also unsupported
     Command command = COMM_UNSUPPORTED;
     long x = POS_NOTSET;
     long y = POS_NOTSET;
@@ -152,6 +154,7 @@ void ProcessLine(string line) {
         }
     }
 }
+
 
 int main(int argc, char *argv[])
 {
