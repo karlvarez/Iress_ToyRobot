@@ -146,6 +146,9 @@
     <Text Include="testScript5.txt" />
     <Text Include="testScript6.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Iress_ToyRobot_TestMatrix.xlsx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -3,6 +3,11 @@
 #include "Global.h"
 #include "Table.h"
 
+/* constants */
+// current requirements: 5x5 Table, change these to resize the table in the future
+#define TABLE_SIZE_X 5
+#define TABLE_SIZE_Y 5
+
 class Controller
 {
 	// Controller class is only created as abstraction between the possible commands from the raw input and the Table and Robot classes

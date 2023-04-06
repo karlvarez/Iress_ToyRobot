@@ -2,11 +2,6 @@
 
 /* global definitions */
 
-/* constants */
-
-#define TABLE_SIZE_X 5
-#define TABLE_SIZE_Y 5
-
 /* Face or Direction values corresponding to North, South, East, West
  * + NOTSET, meaning Robot has not yet been placed on the table
 */
