@@ -12,8 +12,7 @@
 #include "Global.h"
 #include "Controller.h"
 
-/* Commands */
-// these are IDs used to identify the type of command
+/* Command IDs */
 typedef enum tagCommand {
     COMM_UNSUPPORTED = -1,
     COMM_PLACE = 0,
@@ -23,28 +22,30 @@ typedef enum tagCommand {
     COMM_REPORT
 } Command;
 
-using namespace std;    
+using namespace std;
 
-// Controller instance, the Controller is in charge of processing any command coming from the parsing of raw input
+// Controller instance, the Controller is in charge of processing any command coming from the raw input
 Controller m_controller;
 
 /*
 * Parse and process the command by calling Controller functions
 * Parameters:
-* line      : 1 line of input 
+*   line    : 1 line of input
 */
 void ProcessLine(string line) {
+    // initially assume that the line parsed is an unsupported command and any parameters that follow (x, y, face) are also unsupported
     Command command = COMM_UNSUPPORTED;
     long x = POS_NOTSET;
     long y = POS_NOTSET;
     Face face = FACE_NOTSET;
 
+    // variables to hold the tokens after parsing based on ' ' (space) delimiter
     vector<string> tokens;
     string token;
 
     stringstream ss(line);
 
-    // parse, delimiter = ' ' (space char)
+    // read each token and put in vector
     while (getline(ss, token, ' ')) {
         tokens.push_back(token);
     }
@@ -156,12 +157,18 @@ int main(int argc, char *argv[])
 {
     string line;
 
+    // if user provided at least 1 argument, use the first argument as filename and open it
+    // otherwise, wait for user input from stdin
     if (argc > 1) {
         ifstream inputFile(argv[1]);
+
         if (inputFile.is_open()) {
             while (getline(inputFile, line)) {
                 ProcessLine(line);
             }
+        }
+        else {
+            cout << "unable to open " << argv[1] << endl;
         }
     }
     else {
@@ -172,4 +179,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-

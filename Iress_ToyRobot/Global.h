@@ -3,7 +3,7 @@
 /* global definitions */
 
 /* Face or Direction values corresponding to North, South, East, West
- * + NOTSET, meaning Robot has not yet been placed on the table
+ * NOTSET = Robot has not yet been placed on the table
 */
 typedef enum tagFace {
 	FACE_NOTSET = -1,
